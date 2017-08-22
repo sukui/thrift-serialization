@@ -5,7 +5,7 @@
     "zanphp/contracts": "dev-master",
     "zanphp/exception": "dev-master",
     "packaged/thrift": "0.9.2.1",
-    "zanphp/nova-foundation": "dev-master"
+    "zanphp/nova-foundation": "dev-laogui"
   },
   "autoload": {
     "psr-4": {
