@@ -2,52 +2,17 @@
 
 namespace Kdt\Iron\Nova\Service;
 
-use Kdt\Iron\Nova\Foundation\Traits\InstanceManager;
-use Thrift\Exception\TApplicationException;
-use Thrift\Exception\TException as ThriftException;
-use Exception as SysException;
-
-use ZanPHP\Exception\ZanException;
-
 class ExceptionPacket
 {
-    /**
-     * Instance mgr
-     */
-    use InstanceManager;
+    private $ExceptionPacket;
 
-    /**
-     * @var string
-     */
-    private $injectTag = 'IRON-E';
-
-    /**
-     * @var string
-     */
-    private $placeTag = '<||>';
-
-    /**
-     * @param SysException $e
-     * @return SysException
-     */
-    public function ironInject(SysException $e)
+    public function __construct()
     {
-        if ($e instanceof ThriftException)
-        {
-            return $e;
-        }
-        else
-        {
-            return new TApplicationException($e instanceof ZanException ? $this->messageInject($e) : $e->getMessage(), $e->getCode());
-        }
+        $this->ExceptionPacket = new \ZanPHP\ThriftSerialization\ExceptionPacket();
+    }
+    public function ironInject($e)
+    {
+        $this->ExceptionPacket->ironInject($e);
     }
 
-    /**
-     * @param SysException $e
-     * @return string
-     */
-    private function messageInject(SysException $e)
-    {
-        return sprintf('<%s[%s]>%s%s', $this->injectTag, get_class($e), $this->placeTag, $e->getMessage());
-    }
 }

@@ -85,8 +85,15 @@ class StructValidator
      */
     private static function validateHelper($argVal, $spec, $path, $side, $type)
     {
-        switch ($spec["type"]) {
+        if ($argVal === null) {
+            if (isset($spec["required"])) {
+                static::validateFail("$path is required", $side, $type);
+            } else {
+                return;
+            }
+        }
 
+        switch ($spec["type"]) {
             case TType::STRUCT:
                 if (!method_exists($argVal, "getStructSpec")) {
                     continue; // or throw ?!
@@ -134,9 +141,6 @@ class StructValidator
                 break;
 
             default:
-                if (isset($spec["required"]) && $argVal === null) {
-                    static::validateFail("$path is required", $side, $type);
-                }
         }
     }
 

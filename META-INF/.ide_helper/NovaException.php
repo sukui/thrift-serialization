@@ -2,9 +2,9 @@
 
 namespace Kdt\Iron\Nova\Exception;
 
-use Exception as SysException;
+use ZanPHP\Exception\ZanException;
 
-class NovaException extends SysException
+class NovaException extends ZanException
 {
 
 }
